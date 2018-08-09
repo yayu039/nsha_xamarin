@@ -7,53 +7,48 @@
              Icon="{Binding Icon}">
     <ContentPage.Content>
         <StackLayout>
-            <!--<Label Text="Welcome to Xamarin Forms!" />-->
             <ListView 
                 CachingStrategy="RecycleElement"
-                SeparatorColor="Transparent"
+                SeparatorColor="Gray"
                 HasUnevenRows="True"
-                x:Name="ListViewMenu">
+                x:Name="ListViewMenu"
+                ItemsSource="{Binding MenuItems}"
+                IsPullToRefreshEnabled="True"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+                
                 <ListView.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10"/>
+                            
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
+                            
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="80"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="5"/>
+                            
+                            <RowDefinition Height="120"/>
+                            
                         </Grid.RowDefinitions>
 
-                        <BoxView Grid.ColumnSpan="3" 
-                                 Grid.RowSpan="4"
-                                 BackgroundColor="#03A9F4"/>
-                        <!--<controls:CircleImage
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            HorizontalOptions="Start"
-                            VerticalOptions="End"
-                            Source="scott159.png"
-                            WidthRequest="75" HeightRequest="75"/>-->
-                        <Label 
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            Text="NSHA"
-                            Style="{DynamicResource SubtitleStyle}"/>
+                        <Image 
+                                                              
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Source="home_nsha_logo.png"
+                                Aspect="Fill"/>
+                        
                     </Grid>
-                </ListView.Header>
+                </ListView.Header>-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="20">
+                            <Grid Padding="15">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="80"/>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Image Source="{Binding Icon}" HeightRequest="25" WidthRequest="25"/>
-                                <Label Grid.Column="1" Text="{Binding Title}" FontSize="24"/>
+                                <Label Grid.Column="1" Text="{Binding Title}" FontSize="16"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsha_xamarin.Models
 {
-    public class Item
+    public class WordPressMenu
     {
         public int ID { get; set; }
-        public int Order { get; set; }
-        public string Title { get; set; }
-        public string URL { get; set; }
-
+        public List<Item> Items { get; set; }
     }
 }

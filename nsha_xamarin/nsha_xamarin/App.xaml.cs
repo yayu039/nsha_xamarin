@@ -1,5 +1,12 @@
-﻿using nsha_xamarin.Views;
-
+﻿using Newtonsoft.Json;
+using nsha_xamarin.Models;
+using nsha_xamarin.Views;
+using Plugin.Connectivity;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -8,33 +15,17 @@ namespace nsha_xamarin
 {
     public partial class App : Application
     {
+        SplashScreenPage splash;
+        
         public App()
         {
-            InitializeComponent();
+            InitializeComponent();           
 
-            //SetMainPage();
-            Current.MainPage = new RootPage();
+            splash = new SplashScreenPage();
+            
+            Current.MainPage = splash;
+                
         }
 
-        public static void SetMainPage()
-        {
-            Current.MainPage = new TabbedPage
-            {
-                Children =
-                {
-                    new NavigationPage(new ItemsPage())
-                    {
-                        Title = "Browse",
-                        Icon = Device.OnPlatform("tab_feed.png",null,null)
-                    },
-                    new NavigationPage(new AboutPage())
-                    {
-                        Title = "About",
-                        Icon = Device.OnPlatform("tab_about.png",null,null)
-                    },
-                    
-                }
-            };
-        }
     }
 }

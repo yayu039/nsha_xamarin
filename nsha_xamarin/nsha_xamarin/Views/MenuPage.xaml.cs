@@ -1,8 +1,11 @@
-﻿using nsha_xamarin.Models;
+﻿using Newtonsoft.Json;
+using nsha_xamarin.Models;
 using nsha_xamarin.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,38 +20,76 @@ namespace nsha_xamarin.Views
         RootPage rootPage;
         List<HomeMenuItem> menuItems;
 
+        private MenuViewModel ViewModel
+        {
+            get { return BindingContext as MenuViewModel; }
+        }
+
         public MenuPage (RootPage rootPage)
 		{
             this.rootPage = rootPage;
             InitializeComponent ();
-
-            BindingContext = new BaseViewModel
+                        
+            BindingContext = new MenuViewModel
             {
                 Title = "NSHA.Forms",
                 Subtitle = "NSHA.Forms",
                 Icon = "slideout.png"
             };
-
-            ListViewMenu.ItemsSource = menuItems = new List<HomeMenuItem>
-                {
-                    new HomeMenuItem { Title = "Home", MenuType = MenuType.Home, Icon ="about.png" },
-                    new HomeMenuItem { Title = "Services", MenuType = MenuType.Services, Icon = "blog.png" },
-                    new HomeMenuItem { Title = "Booking", MenuType = MenuType.Booking, Icon = "twitternav.png" },
-                    new HomeMenuItem { Title = "About Us", MenuType = MenuType.About, Icon = "hm.png" },
-                    new HomeMenuItem { Title = "Contact Us", MenuType = MenuType.Contact, Icon = "ratchet.png" },
-                    new HomeMenuItem { Title = "FeedBack", MenuType = MenuType.FeedBack, Icon = "tdl.png"},
-                    
-                };
-
-            ListViewMenu.SelectedItem = menuItems[0];
-
+            
+            ListViewMenu.ItemsSource = this.rootPage.Menus;
+            
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 if (ListViewMenu.SelectedItem == null)
                     return;
 
-                await this.rootPage.NavigateAsync((int)((HomeMenuItem)e.SelectedItem).MenuType);
+                await this.rootPage.NavigateAsync((HomeMenuItem)e.SelectedItem);
+ 
+                ListViewMenu.SelectedItem = null;
             };
         }
-	}
+        
+        async Task RefreshDataAsync()
+        {
+            var httpClient = new HttpClient();
+            var uri = new Uri(string.Format("https://nsha-demo.000webhostapp.com/wp-json/wp-api-menus/v2/menus/2", string.Empty));
+            var response = await httpClient.GetAsync(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                WordPressMenu wordPressMenu = JsonConvert.DeserializeObject<WordPressMenu>(content);
+                List<Item> items = wordPressMenu.Items;
+                
+                menuItems = new List<HomeMenuItem>();
+
+                if (items != null)
+                {
+                    Debug.WriteLine("items is not null, count:" + items.Count);
+                                        
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        HomeMenuItem menuItem = new HomeMenuItem();
+                        menuItem.Title = items[i].Title;
+                        menuItem.Order = items[i].Order;
+                        menuItem.Icon = "about.png";                        
+                        menuItems.Add(menuItem);
+                    }
+                    
+                }
+                else
+                {
+                    await DisplayAlert("Alert", "items is null", "OK");
+                    Debug.WriteLine("items is null ");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Alert", "response.IsSuccessStatusCode:" + response.IsSuccessStatusCode, "OK");
+                Debug.WriteLine("items is not null " + response.IsSuccessStatusCode);
+            }
+
+        }
+
+    }
 }
