@@ -9,6 +9,9 @@ using Xamarin.Forms.Xaml;
 
 namespace nsha_xamarin.Views
 {
+    /// <summary>
+    /// This is the navigation page for each Menu Item.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class WordPressWebPage : ContentPage
     {
@@ -22,6 +25,10 @@ namespace nsha_xamarin.Views
             
         }
 
+        /// <summary>
+        /// Remvoe the header and footer from the content
+        /// Start the progress bar
+        /// </summary>
         void webOnNavigating(object sender, WebNavigatingEventArgs e)
         {            
             string js = "var x = document.getElementById('site-header').style.display = 'none';document.getElementById('footer').style.display = 'none';";
@@ -29,6 +36,10 @@ namespace nsha_xamarin.Views
             progress.IsVisible = true;
         }
 
+        /// <summary>
+        /// Remvoe the header and footer from the content.
+        /// End the progress bar
+        /// </summary>
         void webOnEndNavigating(object sender, WebNavigatedEventArgs e)
         {
             string js = "var x = document.getElementById('site-header').style.display = 'none';document.getElementById('footer').style.display = 'none';";
@@ -36,6 +47,9 @@ namespace nsha_xamarin.Views
             progress.IsVisible = false;
         }
 
+        /// <summary>
+        /// Show the progress bar when the page is loading.
+        /// </summary>
         protected async override void OnAppearing()
         {
             base.OnAppearing();

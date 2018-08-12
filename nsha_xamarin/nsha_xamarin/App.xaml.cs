@@ -13,6 +13,10 @@ using Xamarin.Forms.Xaml;
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace nsha_xamarin
 {
+    /// <summary>
+    /// The application class
+    /// Start from the splash screen page.
+    /// </summary>
     public partial class App : Application
     {
         SplashScreenPage splash;

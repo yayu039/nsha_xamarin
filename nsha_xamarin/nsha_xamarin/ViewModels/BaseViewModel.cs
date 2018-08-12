@@ -5,6 +5,9 @@ using System.Runtime.CompilerServices;
 
 namespace nsha_xamarin.ViewModels
 {
+    /// <summary>
+    /// This class the Base View Model for rendering pages.
+    /// </summary>
     public class BaseViewModel : INotifyPropertyChanged
     {
         public BaseViewModel()

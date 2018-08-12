@@ -14,7 +14,9 @@ using Xamarin.Forms.Xaml;
 
 namespace nsha_xamarin.Views
 {
-    
+    /// <summary>
+    /// This is Splash Screen when the app starts.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SplashScreenPage : ContentPage
     {
@@ -45,7 +47,10 @@ namespace nsha_xamarin.Views
             this.BackgroundImage = "splash.jpg";
             this.Content = sub;
         }
-        
+        /// <summary>
+        /// Check Internet Availability 
+        /// and run the initialization tasks.
+        /// </summary>
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -67,6 +72,9 @@ namespace nsha_xamarin.Views
             
         }
 
+        /// <summary>
+        /// Display the splash screen.
+        /// </summary>
         private async Task DisplaySplashAsync()
         {
             await splashImage.ScaleTo(1, 2000); //Time-consuming processes such as initialization
@@ -75,7 +83,9 @@ namespace nsha_xamarin.Views
             await splashImage.ScaleTo(3.5, 2000, Easing.Linear);
         }
 
-
+        /// <summary>
+        /// Retrieve the Menu Items from the server.
+        /// </summary>
         async Task RefreshDataAsync()
         {
 
@@ -94,7 +104,6 @@ namespace nsha_xamarin.Views
                 {
                     Debug.WriteLine("items is not null, count:" + items.Count);
 
-
                     for (int i = 0; i < items.Count; i++)
                     {
                         HomeMenuItem menuItem = new HomeMenuItem();
@@ -109,14 +118,12 @@ namespace nsha_xamarin.Views
                     
                 }
                 else
-                {
-                    
+                {                    
                     Debug.WriteLine("items is null ");
                 }
             }
             else
-            {
-                
+            {                
                 Debug.WriteLine("items is not null " + response.IsSuccessStatusCode);
             }
 

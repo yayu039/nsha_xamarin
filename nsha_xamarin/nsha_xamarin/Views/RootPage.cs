@@ -13,6 +13,9 @@ using System.Diagnostics;
 
 namespace nsha_xamarin.Views
 {
+    /// <summary>
+    /// This is the Master Page of the App.
+    /// </summary>
     public class RootPage : MasterDetailPage
     {
         public static bool IsUWPDesktop { get; set; }
@@ -43,7 +46,10 @@ namespace nsha_xamarin.Views
 
             InvalidateMeasure();
         }
-        
+
+        /// <summary>
+        /// Navigate to the pages according to the selected Menu Item.
+        /// </summary>
         public async Task NavigateAsync(HomeMenuItem item)
         {            
             if (Detail != null)

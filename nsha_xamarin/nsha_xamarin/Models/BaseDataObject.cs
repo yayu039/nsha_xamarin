@@ -3,6 +3,9 @@ using nsha_xamarin.Helpers;
 
 namespace nsha_xamarin.Models
 {
+    /// <summary>
+    /// This is Base Data Object
+    /// </summary>
     public class BaseDataObject : ObservableObject
     {
         public BaseDataObject()

@@ -13,9 +13,14 @@ using Xamarin.Forms;
 
 namespace nsha_xamarin.ViewModels
 {
+    /// <summary>
+    /// This class is Menu View Model for rendering the Menu of the App.
+    /// </summary>
     public class MenuViewModel : BaseViewModel
     {
-
+        /// <summary>
+        /// The list of Menu Items.
+        /// </summary>
         private ObservableCollection<HomeMenuItem> menuItems = new ObservableCollection<HomeMenuItem>();
 
         public ObservableCollection<HomeMenuItem> MenuItems
@@ -24,6 +29,9 @@ namespace nsha_xamarin.ViewModels
             set { menuItems = value; OnPropertyChanged(); }
         }
 
+        /// <summary>
+        /// The selected Menu Item.
+        /// </summary>
         private HomeMenuItem selectedMenuItem;
         public HomeMenuItem SelectedMenuItem
         {
@@ -42,6 +50,9 @@ namespace nsha_xamarin.ViewModels
             get { return loadItemsCommand ?? (loadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand())); }
         }
 
+        /// <summary>
+        /// Load Menu Items from the server
+        /// </summary>
         private async Task ExecuteLoadItemsCommand()
         {
             if (IsBusy)
@@ -54,16 +65,14 @@ namespace nsha_xamarin.ViewModels
             {
                 var httpClient = new HttpClient();
 
-                var uri = new Uri(string.Format("https://nsha-demo.000webhostapp.com/wp-json/wp-api-menus/v2/menus/2", string.Empty));
+                var uri = new Uri(string.Format("https://nsha-web.000webhostapp.com/wp-json/wp-api-menus/v2/menus/2", string.Empty));
                 var response = await httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     WordPressMenu wordPressMenu = JsonConvert.DeserializeObject<WordPressMenu>(content);
                     var wpItems = wordPressMenu.Items;
-
-                    //List<Item> items = JsonConvert.DeserializeObject<List<Item>>(content.Substring(content.IndexOf('['), content.LastIndexOf(']') + 1));
-
+                    
                     menuItems.Clear();
 
                     if (wpItems != null)
